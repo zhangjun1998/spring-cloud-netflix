@@ -33,6 +33,8 @@ import org.springframework.core.Ordered;
 import org.springframework.web.context.ServletContextAware;
 
 /**
+ * eureka server 初始化
+ *
  * @author Dave Syer
  */
 @Configuration(proxyBeanMethods = false)
@@ -65,6 +67,7 @@ public class EurekaServerInitializerConfiguration implements ServletContextAware
 		new Thread(() -> {
 			try {
 				// TODO: is this class even needed now?
+				// 调用 eurekaServerBootstrap 进行 server 初始化
 				eurekaServerBootstrap.contextInitialized(EurekaServerInitializerConfiguration.this.servletContext);
 				log.info("Started Eureka Server");
 

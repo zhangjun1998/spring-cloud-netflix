@@ -70,6 +70,9 @@ import org.springframework.util.ClassUtils;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
+ * eureka 自动配置。
+ * 引入了 EurekaServerInitializerConfiguration 配置，用来启动 eureka
+ *
  * @author Gunnar Hillert
  * @author Biju Kunjummen
  * @author Fahim Farook
@@ -169,6 +172,9 @@ public class EurekaServerAutoConfiguration implements WebMvcConfigurer {
 				this.applicationInfoManager);
 	}
 
+	/**
+	 * 注入 EurekaServerBootstrap 启动类
+	 */
 	@Bean
 	public EurekaServerBootstrap eurekaServerBootstrap(PeerAwareInstanceRegistry registry,
 			EurekaServerContext serverContext) {

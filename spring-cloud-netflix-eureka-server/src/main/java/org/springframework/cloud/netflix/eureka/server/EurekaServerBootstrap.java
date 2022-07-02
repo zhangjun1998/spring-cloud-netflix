@@ -37,6 +37,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
+ * eureka server 启动类
+ *
  * @author Spencer Gibb
  * @author Weix Sun
  */
@@ -66,6 +68,9 @@ public class EurekaServerBootstrap {
 		this.serverContext = serverContext;
 	}
 
+	/**
+	 * 初始化上下文
+	 */
 	public void contextInitialized(ServletContext context) {
 		try {
 			initEurekaServerContext();
