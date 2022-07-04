@@ -64,6 +64,9 @@ public class EurekaServerInitializerConfiguration implements ServletContextAware
 
 	@Override
 	public void start() {
+		/**
+		 * 创建一个单独的后台线程启动 eureka-server
+		 */
 		new Thread(() -> {
 			try {
 				// TODO: is this class even needed now?

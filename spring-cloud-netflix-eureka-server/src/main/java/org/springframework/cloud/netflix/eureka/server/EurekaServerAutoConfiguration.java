@@ -71,8 +71,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * eureka 自动配置。
- * 引入了 EurekaServerInitializerConfiguration 配置，用来启动 eureka
+ * 引入了 EurekaServerInitializerConfiguration 配置，用来启动初始化 eureka-server
  *
+ * <p>
  * @author Gunnar Hillert
  * @author Biju Kunjummen
  * @author Fahim Farook
@@ -148,6 +149,9 @@ public class EurekaServerAutoConfiguration implements WebMvcConfigurer {
 		return new ReplicationClientAdditionalFilters(Collections.emptySet());
 	}
 
+	/**
+	 * 注册表
+	 */
 	@Bean
 	public PeerAwareInstanceRegistry peerAwareInstanceRegistry(ServerCodecs serverCodecs) {
 		this.eurekaClient.getApplications(); // force initialization
@@ -156,6 +160,9 @@ public class EurekaServerAutoConfiguration implements WebMvcConfigurer {
 				this.instanceRegistryProperties.getDefaultOpenForTrafficCount());
 	}
 
+	/**
+	 * 集群
+	 */
 	@Bean
 	@ConditionalOnMissingBean
 	public PeerEurekaNodes peerEurekaNodes(PeerAwareInstanceRegistry registry, ServerCodecs serverCodecs,
@@ -164,6 +171,9 @@ public class EurekaServerAutoConfiguration implements WebMvcConfigurer {
 				this.applicationInfoManager, replicationClientAdditionalFilters);
 	}
 
+	/**
+	 * 上下文
+	 */
 	@Bean
 	@ConditionalOnMissingBean
 	public EurekaServerContext eurekaServerContext(ServerCodecs serverCodecs, PeerAwareInstanceRegistry registry,
@@ -173,7 +183,7 @@ public class EurekaServerAutoConfiguration implements WebMvcConfigurer {
 	}
 
 	/**
-	 * 注入 EurekaServerBootstrap 启动类
+	 * 启动类
 	 */
 	@Bean
 	public EurekaServerBootstrap eurekaServerBootstrap(PeerAwareInstanceRegistry registry,
@@ -248,6 +258,9 @@ public class EurekaServerAutoConfiguration implements WebMvcConfigurer {
 		return bean;
 	}
 
+	/**
+	 * eureka-server 配置
+	 */
 	@Configuration(proxyBeanMethods = false)
 	protected static class EurekaServerConfigBeanConfiguration {
 

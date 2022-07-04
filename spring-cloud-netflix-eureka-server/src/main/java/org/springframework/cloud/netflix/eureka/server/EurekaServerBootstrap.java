@@ -73,6 +73,7 @@ public class EurekaServerBootstrap {
 	 */
 	public void contextInitialized(ServletContext context) {
 		try {
+			// spring 将对象的管理托管给了 IOC 容器，这里不像 Eureka 那样手动创建对象，只需要进行初始化操作即可
 			initEurekaServerContext();
 
 			context.setAttribute(EurekaServerContext.class.getName(), this.serverContext);
@@ -98,6 +99,9 @@ public class EurekaServerBootstrap {
 		log.info("Eureka Service is now shutdown...");
 	}
 
+	/**
+	 * 初始化 eureka-server 上下文
+	 */
 	protected void initEurekaServerContext() throws Exception {
 		// For backward compatibility
 		JsonXStream.getInstance().registerConverter(new V1AwareInstanceInfoConverter(), XStream.PRIORITY_VERY_HIGH);
@@ -113,8 +117,9 @@ public class EurekaServerBootstrap {
 
 		log.info("Initialized server context");
 
-		// Copy registry from neighboring eureka node
+		// 从集群中同步注册表
 		int registryCount = this.registry.syncUp();
+		// 启动
 		this.registry.openForTraffic(this.applicationInfoManager, registryCount);
 
 		// Register all monitoring statistics.

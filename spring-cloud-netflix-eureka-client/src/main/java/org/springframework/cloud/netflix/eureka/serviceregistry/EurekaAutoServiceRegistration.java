@@ -33,6 +33,9 @@ import org.springframework.context.event.SmartApplicationListener;
 import org.springframework.core.Ordered;
 
 /**
+ * 服务自动注册，继承了 SmartLifecycle 接口
+ *
+ * <p>
  * @author Dave Syer
  * @author Spencer Gibb
  * @author Jon Schneider
@@ -80,6 +83,7 @@ public class EurekaAutoServiceRegistration
 		// because of containerPortInitializer below
 		if (!this.running.get() && this.registration.getNonSecurePort() > 0) {
 
+			// 注册
 			this.serviceRegistry.register(this.registration);
 
 			this.context.publishEvent(new InstanceRegisteredEvent<>(this, this.registration.getInstanceConfig()));

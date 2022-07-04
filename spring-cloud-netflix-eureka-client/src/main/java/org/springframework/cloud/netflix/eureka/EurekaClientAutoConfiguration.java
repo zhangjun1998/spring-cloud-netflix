@@ -72,6 +72,9 @@ import org.springframework.util.StringUtils;
 import static org.springframework.cloud.commons.util.IdUtils.getDefaultInstanceId;
 
 /**
+ * eureka-client 自动配置
+ *
+ * <p>
  * @author Dave Syer
  * @author Spencer Gibb
  * @author Jon Schneider
@@ -104,6 +107,9 @@ public class EurekaClientAutoConfiguration {
 		return HasFeatures.namedFeature("Eureka Client", EurekaClient.class);
 	}
 
+	/**
+	 * eureka-client 配置
+	 */
 	@Bean
 	@ConditionalOnMissingBean(value = EurekaClientConfig.class, search = SearchStrategy.CURRENT)
 	public EurekaClientConfigBean eurekaClientConfigBean(ConfigurableEnvironment env) {
@@ -120,6 +126,9 @@ public class EurekaClientAutoConfiguration {
 		return this.env.containsProperty(property) ? this.env.getProperty(property) : "";
 	}
 
+	/**
+	 * 实例配置
+	 */
 	@Bean
 	@ConditionalOnMissingBean(value = EurekaInstanceConfig.class, search = SearchStrategy.CURRENT)
 	public EurekaInstanceConfigBean eurekaInstanceConfigBean(InetUtils inetUtils,
@@ -219,6 +228,11 @@ public class EurekaClientAutoConfiguration {
 	// .build();
 	// }
 
+	/**
+	 * 服务自动注册，
+	 * 这里手动传播了一个状态变更事件，触发了 Eureka {@link com.netflix.appinfo.ApplicationInfoManager.StatusChangeListener} 的执行，
+	 * 进而执行了 {@link com.netflix.discovery.InstanceInfoReplicator#onDemandUpdate()} 方法进行注册
+	 */
 	@Bean
 	@ConditionalOnBean(AutoServiceRegistrationProperties.class)
 	@ConditionalOnProperty(value = "spring.cloud.service-registry.auto-registration.enabled", matchIfMissing = true)
@@ -237,12 +251,18 @@ public class EurekaClientAutoConfiguration {
 		@Autowired
 		private AbstractDiscoveryClientOptionalArgs<?> optionalArgs;
 
+		/**
+		 * eureka 客户端
+		 */
 		@Bean(destroyMethod = "shutdown")
 		@ConditionalOnMissingBean(value = EurekaClient.class, search = SearchStrategy.CURRENT)
 		public EurekaClient eurekaClient(ApplicationInfoManager manager, EurekaClientConfig config) {
 			return new CloudEurekaClient(manager, config, this.optionalArgs, this.context);
 		}
 
+		/**
+		 * 应用信息管理器
+		 */
 		@Bean
 		@ConditionalOnMissingBean(value = ApplicationInfoManager.class, search = SearchStrategy.CURRENT)
 		public ApplicationInfoManager eurekaApplicationInfoManager(EurekaInstanceConfig config) {

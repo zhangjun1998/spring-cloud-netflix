@@ -10,8 +10,12 @@
 
 **已看和待看的代码如下：**
 
-+ [ ] EurekaServerAutoConfiguration：Eureka-Server 的自动配置
-+ [ ] EurekaClientAutoConfiguration：Eureka-Client 的自动配置
++ [x] EurekaServerAutoConfiguration：Eureka-Server 的自动配置
++ [x] EurekaServerInitializerConfiguration：Eureka-Server 初始化
++ [x] EurekaServerBootstrap：eureka-server 启动类
++ [x] EurekaClientAutoConfiguration：Eureka-Client 的自动配置
++ [x] EurekaAutoServiceRegistration：自动注册
++ [x] EurekaServiceRegistry：服务注册
 + [ ] ...
 
 

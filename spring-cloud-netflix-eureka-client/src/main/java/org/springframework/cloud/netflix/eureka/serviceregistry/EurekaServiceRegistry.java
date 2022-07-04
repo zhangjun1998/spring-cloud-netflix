@@ -42,10 +42,10 @@ public class EurekaServiceRegistry implements ServiceRegistry<EurekaRegistration
 					+ " with eureka with status " + reg.getInstanceConfig().getInitialStatus());
 		}
 
+		// 传播状态变更事件，会触发状态变更事件监听器，进而执行 InstanceInfoReplicator 的注册逻辑
 		reg.getApplicationInfoManager().setInstanceStatus(reg.getInstanceConfig().getInitialStatus());
 
-		reg.getHealthCheckHandler()
-				.ifAvailable(healthCheckHandler -> reg.getEurekaClient().registerHealthCheck(healthCheckHandler));
+		reg.getHealthCheckHandler().ifAvailable(healthCheckHandler -> reg.getEurekaClient().registerHealthCheck(healthCheckHandler));
 	}
 
 	private void maybeInitializeClient(EurekaRegistration reg) {
